@@ -11,24 +11,7 @@
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "@google/genai": "^1.6.0",
-    "./App": "latest",
-    "./types": "latest",
-    "./constants": "latest",
-    "./components/Header": "latest",
-    "./components/Footer": "latest",
-    "./components/HomePage": "latest",
-    "./components/DashboardPage": "latest",
-    "./components/EmployeeDetailView": "latest",
-    "./components/EmployeeCard": "latest",
-    "./components/FeatureCard": "latest",
-    "./components/AttritionFactorItem": "latest",
-    "./components/StrategyCard": "latest",
-    "./components/LoadingSpinner": "latest",
-    "./components/icons": "latest",
-    "./services/geminiService": "latest",
-    "./components/SettingsPage": "latest",
-    "./components/ToastNotification": "latest"
+    "@google/genai": "^1.6.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
