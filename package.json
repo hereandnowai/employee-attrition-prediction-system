@@ -1,0 +1,39 @@
+{
+  "name": "employee-attrition-prediction-system",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "@google/genai": "^1.6.0",
+    "@": "latest",
+    "./App": "latest",
+    "./types": "latest",
+    "./constants": "latest",
+    "./components/Header": "latest",
+    "./components/Footer": "latest",
+    "./components/HomePage": "latest",
+    "./components/DashboardPage": "latest",
+    "./components/EmployeeDetailView": "latest",
+    "./components/EmployeeCard": "latest",
+    "./components/FeatureCard": "latest",
+    "./components/AttritionFactorItem": "latest",
+    "./components/StrategyCard": "latest",
+    "./components/LoadingSpinner": "latest",
+    "./components/icons": "latest",
+    "./services/geminiService": "latest",
+    "./components/SettingsPage": "latest",
+    "./components/ToastNotification": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0"
+  }
+}

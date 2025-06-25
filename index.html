@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HERE AND NOW AI - Attrition Prediction</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/hereandnowai/images/refs/heads/main/logos/favicon-logo-with-name.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --brand-primary: #FFDF00; /* Golden Yellow */
+        --brand-primary-dark: #E6C600; /* Darker Golden for hover/active states */
+        --brand-secondary: #004040; /* Dark Teal */
+        --brand-secondary-light: #005A5A; /* Lighter Dark Teal */
+        --brand-secondary-dark: #002D2D; /* Darker Dark Teal */
+        
+        /* Text on specific brand color backgrounds (Dark Theme) */
+        --brand-text-on-secondary: #E0F2F1; 
+        --brand-text-on-primary: #002D2D; 
+
+        --brand-accent-text: var(--brand-primary); /* Accent text color (Dark Theme) */
+        
+        /* Backgrounds (Dark Theme) */
+        --brand-bg-base: var(--brand-secondary); /* Will be overridden by gradient */
+        --brand-bg-surface: var(--brand-secondary-light);
+        --brand-bg-surface-alt: var(--brand-secondary-dark);
+
+        /* Borders (Dark Theme) */
+        --brand-border-color: rgba(255, 223, 0, 0.2); 
+        --brand-border-color-alt: rgba(255, 223, 0, 0.1);
+        --brand-focus-ring: var(--brand-primary);
+
+        /* Theme-aware component backgrounds (Dark Theme) */
+        --header-bg: var(--brand-secondary-dark);
+        --footer-bg: var(--brand-secondary-dark);
+
+        /* General text colors (Dark Theme) */
+        --text-color-primary: #E0F2F1; 
+        --text-color-secondary: #A0AEC0; 
+        --text-color-muted: #718096; 
+
+        /* Gradient & Glow (Dark Theme) */
+        --gradient-color-1: #002D2D; /* Deep Teal */
+        --gradient-color-2: #001f1f; /* Even Deeper Teal */
+        --gradient-color-3: #0a0f1f; /* Dark Blue/Purple Tint */
+        --interactive-glow-color: rgba(255, 223, 0, 0.08); /* Subtle Gold Glow */
+      }
+
+      html.light-theme {
+        --brand-primary: #FFDF00; 
+        --brand-primary-dark: #E6C600; 
+        --brand-secondary: #005A5A; 
+        --brand-secondary-light: #007A7A; 
+        --brand-secondary-dark: #004040; 
+        
+        --brand-text-on-secondary: #002D2D; 
+        --brand-text-on-primary: #002D2D; 
+
+        --brand-accent-text: var(--brand-secondary); 
+
+        --brand-bg-base: #F0F4F8; /* Will be overridden by gradient */
+        --brand-bg-surface: #FFFFFF;     
+        --brand-bg-surface-alt: #E9EFF3; 
+        
+        --brand-border-color: rgba(0, 64, 64, 0.15); 
+        --brand-border-color-alt: rgba(0, 64, 64, 0.08);
+
+        --header-bg: #FFFFFF;
+        --footer-bg: #E9EFF3;
+
+        --text-color-primary: #1A202C;    
+        --text-color-secondary: #4A5568;  
+        --text-color-muted: #718096;      
+
+        /* Gradient & Glow (Light Theme) */
+        --gradient-color-1: #E0F2F7; /* Very Light Sky Blue/Teal */
+        --gradient-color-2: #D4EFF7; /* Slightly deeper light blue */
+        --gradient-color-3: #FEF9E7; /* Very Light Yellow/Cream */
+        --interactive-glow-color: rgba(255, 223, 0, 0.12); /* Gentle Gold Glow */
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        color: var(--text-color-primary);
+        transition: color 0.3s ease; /* Background transition removed as it's now animated */
+        background: linear-gradient(-45deg, var(--gradient-color-1), var(--gradient-color-2), var(--gradient-color-3));
+        background-size: 300% 300%;
+        animation: dynamicGradient 25s ease infinite alternate;
+        overflow-x: hidden; /* Prevent horizontal scroll from potential glow overflow */
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: radial-gradient(
+          800px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh),
+          var(--interactive-glow-color),
+          transparent 70%
+        );
+        pointer-events: none;
+        z-index: -10; /* Ensure it's well behind everything */
+        opacity: 0.8;
+        transition: background 0.2s linear; /* Smooth transition for glow movement */
+      }
+      
+      @keyframes dynamicGradient {
+        0% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+        50% { background-position: 100% 50%; filter: hue-rotate(15deg); }
+        100% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+      }
+
+      /* Custom scrollbar for better aesthetics */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--brand-bg-surface-alt); 
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--brand-primary-dark);
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--brand-primary);
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+      @keyframes popIn {
+        0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+        100% { opacity: 1; transform: scale(1) translateY(0); }
+      }
+      .animate-popIn {
+        animation: popIn 0.5s ease-out forwards;
+      }
+      input:checked ~ .dot {
+        transform: translateX(100%);
+      }
+      input:checked ~ .block {
+        background-color: var(--brand-primary);
+      }
+    </style>
+    <script id="theme-loader">
+      (function() {
+        try {
+          const settings = localStorage.getItem('hnaiAttritionAppSettings');
+          if (settings) {
+            const theme = JSON.parse(settings).theme;
+            if (theme === 'light') {
+              document.documentElement.classList.add('light-theme');
+            } else {
+              document.documentElement.classList.remove('light-theme');
+            }
+          }
+        } catch (e) {
+          console.error('Error loading theme from localStorage:', e);
+          document.documentElement.classList.remove('light-theme');
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.6.0",
+    "@/": "./",
+    "./App": "./App.tsx",
+    "./types": "./types.ts",
+    "./constants": "./constants.ts",
+    "./components/Header": "./components/Header.tsx",
+    "./components/Footer": "./components/Footer.tsx",
+    "./components/HomePage": "./components/HomePage.tsx",
+    "./components/DashboardPage": "./components/DashboardPage.tsx",
+    "./components/EmployeeDetailView": "./components/EmployeeDetailView.tsx",
+    "./components/EmployeeCard": "./components/EmployeeCard.tsx",
+    "./components/FeatureCard": "./components/FeatureCard.tsx",
+    "./components/AttritionFactorItem": "./components/AttritionFactorItem.tsx",
+    "./components/StrategyCard": "./components/StrategyCard.tsx",
+    "./components/LoadingSpinner": "./components/LoadingSpinner.tsx",
+    "./components/icons": "./components/icons.tsx",
+    "./services/geminiService": "./services/geminiService.ts",
+    "./components/SettingsPage": "./components/SettingsPage.tsx",
+    "./components/ToastNotification": "./components/ToastNotification.tsx"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

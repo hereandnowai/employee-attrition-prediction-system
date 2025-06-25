@@ -1,0 +1,6 @@
+{
+  "name": "Employee Attrition Prediction System",
+  "description": "A React application to simulate an Employee Attrition Prediction System, providing insights and generating retention strategies using Gemini API.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
